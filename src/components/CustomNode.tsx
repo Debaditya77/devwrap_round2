@@ -72,10 +72,15 @@ const CustomNode = ({ id, data, isConnectable }: NodeProps) => {
                <span>{data.resources.length} Modules</span>
              </div>
           )}
-          {data.quizzes && data.quizzes.length > 0 && (
+          {data.quizzes && (
              <div className="flex items-center gap-1 bg-gray-900/80 px-2 py-1 rounded-md border border-gray-700 text-xs text-gray-400">
                <Sparkles size={10} className={isNext ? "text-orange-400" : "text-gray-500"} />
-               <span>{data.quizzes.length} Quizzes</span>
+               <span>
+                 {Array.isArray(data.quizzes) 
+                   ? data.quizzes.length 
+                   : (data.quizzes.beginner?.length || 0)
+                 } Quizzes
+               </span>
              </div>
           )}
         </div>

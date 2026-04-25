@@ -47,7 +47,7 @@ export default function SidePanel({ isOpen, onClose, data }: SidePanelProps) {
     // If it's the old array format, return it as is
     if (Array.isArray(data.quizzes)) return data.quizzes;
     
-    const level = skillLevel.toLowerCase();
+    const level = skillLevel?.toLowerCase() || 'beginner';
     let selectedQuizzes = [];
     
     if (level === 'advanced') selectedQuizzes = data.quizzes.advanced || [];

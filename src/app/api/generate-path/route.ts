@@ -289,7 +289,12 @@ const generateGenericGraph = (goal: string, level: string) => {
 
 export async function POST(req: Request) {
   try {
-    const { goal, level } = await req.json();
+    const body = await req.json();
+    const { goal, level } = body;
+    
+    if (!goal) {
+      return NextResponse.json({ error: 'Goal is required.' }, { status: 400 });
+    }
     
     // Artificial delay to simulate AI thinking for the hackathon presentation
     await new Promise(resolve => setTimeout(resolve, 1500));
