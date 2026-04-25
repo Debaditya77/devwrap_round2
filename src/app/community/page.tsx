@@ -71,16 +71,19 @@ export default function Community() {
         try {
           const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
           const { db } = await import('@/lib/firebase');
-          
-          addDoc(collection(db, 'paths'), {
+          const newPath = {
             userId: useStore.getState().user.uid,
             goal: path.goal,
             level: path.level,
             nodes: data.nodes,
             edges: data.edges,
             createdAt: serverTimestamp()
-          }).then(docRef => {
+          };
+          addDoc(collection(db, 'paths'), newPath).then(docRef => {
             setCurrentPathId(docRef.id);
+            const state = useStore.getState();
+            const currentCache = state.cachedUserPaths || [];
+            state.setCachedUserPaths([{ id: docRef.id, ...newPath }, ...currentCache]);
           }).catch(e => {
             console.error("Error saving path to Firestore: ", e);
             setCurrentPathId(null);

@@ -42,16 +42,20 @@ export default function Home() {
 
       if (user) {
         try {
-          // Fire-and-forget database save so it NEVER blocks the UI
-          addDoc(collection(db, 'paths'), {
+          const newPath = {
             userId: user.uid,
             goal: goal,
             level: level,
             nodes: data.nodes,
             edges: data.edges,
             createdAt: serverTimestamp()
-          }).then(docRef => {
+          };
+          addDoc(collection(db, 'paths'), newPath).then(docRef => {
             setCurrentPathId(docRef.id);
+            // Instantly update cache
+            const state = useStore.getState();
+            const currentCache = state.cachedUserPaths || [];
+            state.setCachedUserPaths([{ id: docRef.id, ...newPath }, ...currentCache]);
           }).catch(e => {
             console.error("Error saving path to Firestore: ", e);
             setCurrentPathId(null);
