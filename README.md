@@ -70,5 +70,7 @@ Check the **Community** tab to find trending paths. Cloning a path adds it to yo
 
 ---
 
+## 🌐 Live Demo
 
-
+You can access the live, production-grade version of SkillMap here:
+👉 **[SkillMap Platform on Vercel](https://devwrap-round2.vercel.app/)**
