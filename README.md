@@ -2,6 +2,7 @@
 
 SkillMap is a cutting-edge, AI-driven learning platform designed to revolutionize how individuals master new technologies. By combining the power of **Google Gemini AI**, **Interactive 3D Visualizations**, and an **Adaptive Difficulty Engine**, SkillMap provides a truly personalized educational journey.
 
+🌐 **[Live Platform on Vercel](https://devwrap-round2.vercel.app/)**
 🎥 **[Watch the Demo Video on YouTube](https://youtu.be/4hR9t2by4lc)**
 
 ---
@@ -71,8 +72,3 @@ As you pass quizzes, child nodes will unlock. If you find a topic too difficult,
 Check the **Community** tab to find trending paths. Cloning a path adds it to your collection. The system tracks your "Last Learned" activity to keep your dashboard organized.
 
 ---
-
-## 🌐 Live Demo
-
-You can access the live, production-grade version of SkillMap here:
-👉 **[SkillMap Platform on Vercel](https://devwrap-round2.vercel.app/)**
