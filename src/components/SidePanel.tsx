@@ -144,12 +144,12 @@ export default function SidePanel({ isOpen, onClose, data }: SidePanelProps) {
   };
 
   // Fallback supportive resources if none provided
-  const fallbackResources = [
+  const fallbackResources = data ? [
     { title: `Simplified ${data.label} Guide`, url: `https://www.google.com/search?q=${encodeURIComponent(data.label + ' for absolute beginners')}`, type: "Search" },
     { title: `${data.label} Explained in 5 Minutes`, url: `https://www.youtube.com/results?search_query=${encodeURIComponent(data.label + ' explained simply')}`, type: "Video" }
-  ];
+  ] : [];
 
-  const supportiveToDisplay = (data.supportiveResources && data.supportiveResources.length > 0) 
+  const supportiveToDisplay = (data?.supportiveResources && data.supportiveResources.length > 0) 
     ? data.supportiveResources 
     : fallbackResources;
 
