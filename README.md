@@ -2,6 +2,8 @@
 
 SkillMap is a cutting-edge, AI-driven learning platform designed to revolutionize how individuals master new technologies. By combining the power of **Google Gemini AI**, **Interactive 3D Visualizations**, and an **Adaptive Difficulty Engine**, SkillMap provides a truly personalized educational journey.
 
+🎥 **[Watch the Demo Video on YouTube](https://youtu.be/4hR9t2by4lc)**
+
 ---
 
 ## 🌟 Key Features
