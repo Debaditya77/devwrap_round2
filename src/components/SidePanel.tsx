@@ -157,10 +157,7 @@ export default function SidePanel({ isOpen, onClose, data }: SidePanelProps) {
         }
       }
 
-      // Close the panel quickly to make progress bar feel snappy
-      setTimeout(() => {
-        onClose();
-      }, 50);
+      onClose();
     }
   };
 

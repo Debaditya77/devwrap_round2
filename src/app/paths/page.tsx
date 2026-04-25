@@ -59,8 +59,9 @@ export default function Paths() {
   };
 
   const calculateProgress = (nodes: any[]) => {
-    if (!nodes || nodes.length === 0) return 0;
-    const cleared = nodes.filter(n => n.data?.status === 'cleared').length;
+    if (!Array.isArray(nodes) || nodes.length === 0) return 0;
+    const cleared = nodes.filter(n => n?.data?.status === 'cleared').length;
+    if (cleared === 0) return 0;
     return Math.round((cleared / nodes.length) * 100);
   };
 

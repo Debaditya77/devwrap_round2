@@ -65,6 +65,7 @@ export default function Dashboard() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [layoutedNodes, setLayoutedNodes] = useState<Node[]>([]);
   const [layoutedEdges, setLayoutedEdges] = useState<Edge[]>([]);
+  const [showOverlay, setShowOverlay] = useState(true);
 
   // Calculate Player Stats
   const totalNodes = nodes.length;
@@ -183,7 +184,7 @@ export default function Dashboard() {
       </ReactFlow>
 
       {/* Path Mastered Celebration Overlay */}
-      {progressPercent === 100 && (
+      {progressPercent === 100 && showOverlay && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/80 backdrop-blur-md pointer-events-auto">
           <div className="bg-gray-900 border border-orange-500/50 p-12 rounded-3xl shadow-[0_0_100px_rgba(249,115,22,0.3)] text-center max-w-2xl relative overflow-hidden animate-in fade-in zoom-in duration-700">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
@@ -209,10 +210,7 @@ export default function Dashboard() {
 
             <div className="flex gap-4 justify-center relative z-10">
               <button 
-                onClick={() => {
-                  // Temporary hide the overlay if they just want to look at the graph
-                  document.querySelector('.fixed.inset-0.z-40')?.classList.add('hidden');
-                }}
+                onClick={() => setShowOverlay(false)}
                 className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-xl transition-all font-medium border border-gray-700"
               >
                 View Graph
