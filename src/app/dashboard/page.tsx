@@ -112,17 +112,17 @@ export default function Dashboard() {
     <div className="w-full h-screen bg-[#050505] overflow-hidden">
       
       {/* Gamified Background Glow */}
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-900/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-900/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
 
       {/* Header Overlay */}
       <div className="absolute top-0 left-0 right-0 z-10 p-6 pointer-events-none flex justify-between items-center">
-        <Link href="/" className="pointer-events-auto flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors bg-gray-900/80 px-4 py-2 rounded-full border border-gray-800 backdrop-blur-md">
+        <Link href="/" className="pointer-events-auto flex items-center gap-2 text-gray-400 hover:text-orange-400 transition-colors bg-gray-900/80 px-4 py-2 rounded-full border border-gray-800 backdrop-blur-md">
           <ArrowLeft size={18} />
           <span className="font-medium text-sm">Return Home</span>
         </Link>
         <div className="text-right bg-gray-900/80 px-6 py-3 rounded-2xl border border-gray-800 shadow-xl backdrop-blur-md">
-          <h2 className="text-xl font-bold text-white drop-shadow-[0_0_10px_rgba(34,211,238,0.2)]">{userGoal}</h2>
-          <p className="text-sm text-cyan-400 font-bold tracking-wide uppercase mt-1">Tier {skillLevel} Path</p>
+          <h2 className="text-xl font-bold text-white drop-shadow-[0_0_10px_rgba(249,115,22,0.2)]">{userGoal}</h2>
+          <p className="text-sm text-orange-400 font-bold tracking-wide uppercase mt-1">Tier {skillLevel} Path</p>
         </div>
       </div>
 
@@ -136,7 +136,7 @@ export default function Dashboard() {
           <div className="bg-gray-800/50 p-3 rounded-xl border border-gray-700/50">
             <div className="text-gray-400 text-xs font-medium mb-1 uppercase tracking-wide">Current Mastery</div>
             <div className="text-white font-bold text-lg flex items-center gap-2">
-              <Award size={18} className="text-cyan-400" /> {skillLevel}
+              <Award size={18} className="text-orange-400" /> {skillLevel}
             </div>
           </div>
           
@@ -150,10 +150,10 @@ export default function Dashboard() {
           <div className="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50">
             <div className="flex justify-between text-xs font-medium mb-3">
               <span className="text-gray-300 uppercase tracking-wide">Path Progress</span>
-              <span className="text-cyan-400 font-bold">{progressPercent}%</span>
+              <span className="text-orange-400 font-bold">{progressPercent}%</span>
             </div>
             <div className="w-full bg-gray-900 rounded-full h-2.5 overflow-hidden border border-gray-700">
-              <div className="bg-gradient-to-r from-cyan-600 to-cyan-400 h-2.5 rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(34,211,238,0.8)]" style={{ width: `${progressPercent}%` }}></div>
+              <div className="bg-gradient-to-r from-orange-600 to-orange-400 h-2.5 rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(249,115,22,0.8)]" style={{ width: `${progressPercent}%` }}></div>
             </div>
             <div className="text-right text-xs text-gray-500 mt-2 font-medium">
               {clearedNodes} / {totalNodes} Modules Mastered

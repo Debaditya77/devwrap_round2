@@ -8,7 +8,7 @@ import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
 export default function Progress() {
-  const { user, graphData, goal, level } = useStore();
+  const { user, nodes, userGoal, skillLevel } = useStore();
   const [totalNodes, setTotalNodes] = useState(0);
   const [clearedNodes, setClearedNodes] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
@@ -16,9 +16,9 @@ export default function Progress() {
 
   useEffect(() => {
     // 1. Immediately sync with active session (zero delay)
-    if (graphData && graphData.nodes.length > 0) {
-      setTotalNodes(graphData.nodes.length);
-      const cleared = graphData.nodes.filter(n => n.data?.status === 'cleared').length;
+    if (nodes && nodes.length > 0) {
+      setTotalNodes(nodes.length);
+      const cleared = nodes.filter(n => n.data?.status === 'cleared').length;
       setClearedNodes(cleared);
       setTotalPoints(cleared * 150); // Immediate optimistic points
     }
@@ -49,7 +49,8 @@ export default function Progress() {
         });
 
         // Use historical data if it exceeds current session (meaning they've done more overall)
-        if (aggregateTotal > 0 && aggregatePoints >= (graphData?.nodes?.filter(n => n.data?.status === 'cleared').length || 0) * 150) {
+        const currentSessionPoints = (nodes?.filter(n => n.data?.status === 'cleared').length || 0) * 150;
+        if (aggregateTotal > 0 && aggregatePoints >= currentSessionPoints) {
           setTotalNodes(aggregateTotal);
           setClearedNodes(aggregateCleared);
           setTotalPoints(aggregatePoints);
@@ -62,7 +63,7 @@ export default function Progress() {
     }
 
     fetchHistory();
-  }, [user, graphData]);
+  }, [user, nodes]);
 
   const progressPercentage = totalNodes > 0 ? Math.round((clearedNodes / totalNodes) * 100) : 0;
 
@@ -134,10 +135,10 @@ export default function Progress() {
                   <h3 className="text-lg font-medium text-gray-300">Active Directive</h3>
                 </div>
                 <h4 className="text-2xl font-medium text-white mb-2 leading-tight">
-                  {goal || "No Active Goal"}
+                  {userGoal || "No Active Goal"}
                 </h4>
                 <p className="text-sm text-gray-500">
-                  Level: <span className="text-orange-400 font-medium">{level || "N/A"}</span>
+                  Level: <span className="text-orange-400 font-medium">{skillLevel || "N/A"}</span>
                 </p>
               </div>
               
