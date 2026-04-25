@@ -74,20 +74,25 @@ export default function Dashboard() {
 
   // Redirect if no data, otherwise auto-layout
   useEffect(() => {
-    if (nodes.length > 0) {
-      // Inject gamified edge styling (Orange/Cyan theme)
-      const styledEdges = edges.map(edge => ({
-        ...edge,
-        animated: true,
-        style: { stroke: '#f97316', strokeWidth: 3 }, // Orange glowing edges
-      }));
-      
-      const { nodes: newNodes, edges: newEdges } = getLayoutedElements(nodes, styledEdges);
-      setLayoutedNodes(newNodes);
-      setLayoutedEdges(newEdges);
-    } else {
-      router.push('/');
-    }
+    // Add a tiny delay to allow Zustand localStorage to hydrate
+    const hydrationTimer = setTimeout(() => {
+      if (nodes.length > 0) {
+        // Inject gamified edge styling (Orange/Cyan theme)
+        const styledEdges = edges.map(edge => ({
+          ...edge,
+          animated: true,
+          style: { stroke: '#f97316', strokeWidth: 3 }, // Orange glowing edges
+        }));
+        
+        const { nodes: newNodes, edges: newEdges } = getLayoutedElements(nodes, styledEdges);
+        setLayoutedNodes(newNodes);
+        setLayoutedEdges(newEdges);
+      } else {
+        router.push('/');
+      }
+    }, 100);
+
+    return () => clearTimeout(hydrationTimer);
   }, [nodes, edges, router]);
 
   const onNodeClick: NodeMouseHandler = useCallback((event, node) => {
