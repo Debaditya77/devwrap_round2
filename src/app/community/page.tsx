@@ -81,9 +81,10 @@ export default function Community() {
           };
           addDoc(collection(db, 'paths'), newPath).then(docRef => {
             setCurrentPathId(docRef.id);
+            const cachePath = { ...newPath, createdAt: new Date() };
             const state = useStore.getState();
             const currentCache = state.cachedUserPaths || [];
-            state.setCachedUserPaths([{ id: docRef.id, ...newPath }, ...currentCache]);
+            state.setCachedUserPaths([{ id: docRef.id, ...cachePath }, ...currentCache]);
           }).catch(e => {
             console.error("Error saving path to Firestore: ", e);
             setCurrentPathId(null);

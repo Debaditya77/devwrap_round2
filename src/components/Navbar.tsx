@@ -14,6 +14,13 @@ export default function Navbar() {
   const { user, setUser } = useStore();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
+  React.useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, [setUser]);
+
   const handleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);

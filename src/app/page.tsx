@@ -52,10 +52,11 @@ export default function Home() {
           };
           addDoc(collection(db, 'paths'), newPath).then(docRef => {
             setCurrentPathId(docRef.id);
-            // Instantly update cache
+            // Instantly update cache, but use a serializable date for the cache so we don't break Zustand's JSON.stringify
+            const cachePath = { ...newPath, createdAt: new Date() };
             const state = useStore.getState();
             const currentCache = state.cachedUserPaths || [];
-            state.setCachedUserPaths([{ id: docRef.id, ...newPath }, ...currentCache]);
+            state.setCachedUserPaths([{ id: docRef.id, ...cachePath }, ...currentCache]);
           }).catch(e => {
             console.error("Error saving path to Firestore: ", e);
             setCurrentPathId(null);
