@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗺️ SkillMap/Invisible_Approach: AI-Powered Adaptive Learning Platform
 
-## Getting Started
+SkillMap is a cutting-edge, AI-driven learning platform designed to revolutionize how individuals master new technologies. By combining the power of **Google Gemini AI**, **Interactive 3D Visualizations**, and an **Adaptive Difficulty Engine**, SkillMap provides a truly personalized educational journey.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. 🧠 AI Path Generation
+- **Personalized Roadmaps**: Simply enter a learning goal (e.g., "React," "Machine Learning," "Quantum Computing"), and our AI generates a custom-tailored skill path.
+- **Goal-Aware Scaling**: The AI analyzes your target and structures the path into logical, sequential nodes from Foundations to Mastery.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2. ⚡ Adaptive Difficulty System (Fail-Safe Learning)
+- **3-Attempt Quiz Limit**: Every module features a knowledge check. To prevent "guess-clicking," users are limited to 3 attempts.
+- **Automatic Level Adjustment**: If a user fails a quiz 3 times, the system intelligently downgrades their skill level (e.g., Advanced → Intermediate → Beginner).
+- **Dynamic Content Swapping**: Upon downgrade, the module's questions automatically switch to a simpler set tailored to the new level.
+- **Supportive Resource Injection**: Failing a quiz triggers a "Supportive Learning" section, providing simplified guides, visual videos, and cheat sheets to help the user recover.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. 🌐 Community & Collaboration
+- **Global Skill Library**: Browse paths created by other learners in the community.
+- **One-Click Cloning**: Instantly clone any community path to your personal dashboard to start learning.
+- **Smart Sorting**: The community feed automatically prioritizes paths you've recently engaged with, bringing your current focus to the top.
 
-## Learn More
+### 4. 📊 Progress Tracking Dashboard
+- **Interactive Flow Map**: Built with React Flow, our dashboard allows you to visualize your progress through a sleek, interactive graph.
+- **Module Status**: Nodes change color and state (Locked, Pending, Cleared) as you progress through the path.
+- **Prerequisite Enforcement**: You cannot skip ahead; modules stay locked until their parent prerequisites are mastered.
 
-To learn more about Next.js, take a look at the following resources:
+### 5. ✨ Premium User Experience
+- **Glassmorphism UI**: A stunning, modern interface with vibrant gradients and translucent effects.
+- **Micro-Animations**: Powered by Framer Motion for smooth transitions and interactive feedback.
+- **Security & Confirmation**: Premium modal-based flows for actions like logging out or path cloning.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Tech Stack
 
-## Deploy on Vercel
+- **Frontend**: Next.js 15 (App Router), React 19, Tailwind CSS 4.
+- **State Management**: Zustand (with Persistence) for seamless offline-first experience.
+- **Animations**: Framer Motion.
+- **Graph Engine**: React Flow.
+- **Backend/Database**: Firebase (Auth & Firestore).
+- **AI Intelligence**: Google Gemini AI (via Generative AI SDK).
+- **Icons**: Lucide React.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Methodology & How to Use
+
+### Step 1: Initialization
+Start by logging in via Google. Your progress is synced across devices using Firebase.
+
+### Step 2: Define Your Goal
+Navigate to the **Dashboard** and enter what you want to learn. The AI will brainstorm and construct an interactive graph of interconnected concepts.
+
+### Step 3: Interactive Learning
+Click on any unlocked node (Cyan border) to open the **Side Panel**. Here you will find:
+- **AI Reasoning**: Why this concept is important for your specific goal.
+- **Curated Resources**: High-quality links to documentation and videos.
+- **Knowledge Check**: A quiz you must pass to "clear" the node.
+
+### Step 4: Mastering the Path
+As you pass quizzes, child nodes will unlock. If you find a topic too difficult, don't worry! After 3 failed quiz attempts, SkillMap will:
+1. Adjust your difficulty level.
+2. Provide **Supportive Resources** (Simplified guides).
+3. Reset the quiz with easier questions.
+
+### Step 5: Community Engagement
+Check the **Community** tab to find trending paths. Cloning a path adds it to your collection. The system tracks your "Last Learned" activity to keep your dashboard organized.
+
+---
+
+
+

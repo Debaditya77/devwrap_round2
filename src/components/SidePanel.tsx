@@ -14,14 +14,15 @@ export interface NodeData {
   explanation?: string;
   explainability?: string;
   resources?: { title: string; url: string; type: string }[];
+  supportiveResources?: { title: string; url: string; type: string }[];
   timeEstimate?: string;
   prerequisitesExplanation?: string;
   status?: string;
   quizzes?: {
-    question: string;
-    options: string[];
-    correctAnswerIndex: number;
-  }[];
+    beginner: { question: string; options: string[]; correctAnswerIndex: number }[];
+    intermediate: { question: string; options: string[]; correctAnswerIndex: number }[];
+    advanced: { question: string; options: string[]; correctAnswerIndex: number }[];
+  } | { question: string; options: string[]; correctAnswerIndex: number }[];
 }
 
 interface SidePanelProps {
@@ -31,36 +32,85 @@ interface SidePanelProps {
 }
 
 export default function SidePanel({ isOpen, onClose, data }: SidePanelProps) {
-  const { markNodeAsCleared, nodes, edges } = useStore();
+  const { markNodeAsCleared, nodes, edges, skillLevel, setSkillLevel } = useStore();
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [quizError, setQuizError] = useState(false);
   const [quizPassed, setQuizPassed] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const MAX_ATTEMPTS = 3;
 
-  // Reset quiz state when node changes
+  // Get active quizzes based on current skill level with fallbacks
+  const getActiveQuizzes = () => {
+    if (!data?.quizzes) return [];
+    
+    // If it's the old array format, return it as is
+    if (Array.isArray(data.quizzes)) return data.quizzes;
+    
+    const level = skillLevel.toLowerCase();
+    let selectedQuizzes = [];
+    
+    if (level === 'advanced') selectedQuizzes = data.quizzes.advanced || [];
+    else if (level === 'intermediate') selectedQuizzes = data.quizzes.intermediate || [];
+    else selectedQuizzes = data.quizzes.beginner || [];
+
+    // Fallback to beginner if selected is empty, or any available level
+    if (selectedQuizzes.length === 0) {
+      selectedQuizzes = data.quizzes.beginner || data.quizzes.intermediate || data.quizzes.advanced || [];
+    }
+    
+    return selectedQuizzes;
+  };
+
+  const activeQuizzes = getActiveQuizzes();
+
+  // Reset quiz state when node OR skill level changes
   useEffect(() => {
     setCurrentQuizIndex(0);
     setSelectedAnswer(null);
     setQuizError(false);
     setQuizPassed(false);
-  }, [data?.id]);
+    setAttempts(0);
+  }, [data?.id, skillLevel]);
+
+  const handleResetQuiz = () => {
+    setAttempts(0);
+    setQuizError(false);
+    setQuizPassed(false);
+    setCurrentQuizIndex(0);
+    setSelectedAnswer(null);
+  };
 
   const isLocked = data && edges.filter(e => e.target === data.id).some(edge => {
     const parentNode = nodes.find(n => n.id === edge.source);
     return parentNode && parentNode.data.status !== 'cleared';
   });
 
-  const handleNextQuestion = () => {
-    if (!data?.quizzes) return;
+  const handleQuizFailure = () => {
+    let nextLevel = 'Beginner';
+    if (skillLevel === 'Advanced') nextLevel = 'Intermediate';
+    else if (skillLevel === 'Intermediate') nextLevel = 'Beginner';
     
-    if (selectedAnswer !== data.quizzes[currentQuizIndex].correctAnswerIndex) {
+    setSkillLevel(nextLevel);
+  };
+
+  const handleNextQuestion = () => {
+    if (activeQuizzes.length === 0) return;
+    
+    if (selectedAnswer !== activeQuizzes[currentQuizIndex].correctAnswerIndex) {
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
       setQuizError(true);
+      
+      if (newAttempts >= MAX_ATTEMPTS) {
+        handleQuizFailure();
+      }
       return;
     }
 
     setQuizError(false);
 
-    if (currentQuizIndex < data.quizzes.length - 1) {
+    if (currentQuizIndex < activeQuizzes.length - 1) {
       setCurrentQuizIndex(prev => prev + 1);
       setSelectedAnswer(null);
     } else {
@@ -92,6 +142,16 @@ export default function SidePanel({ isOpen, onClose, data }: SidePanelProps) {
       }, 400);
     }
   };
+
+  // Fallback supportive resources if none provided
+  const fallbackResources = [
+    { title: `Simplified ${data.label} Guide`, url: `https://www.google.com/search?q=${encodeURIComponent(data.label + ' for absolute beginners')}`, type: "Search" },
+    { title: `${data.label} Explained in 5 Minutes`, url: `https://www.youtube.com/results?search_query=${encodeURIComponent(data.label + ' explained simply')}`, type: "Video" }
+  ];
+
+  const supportiveToDisplay = (data.supportiveResources && data.supportiveResources.length > 0) 
+    ? data.supportiveResources 
+    : fallbackResources;
 
   return (
     <AnimatePresence>
@@ -167,56 +227,107 @@ export default function SidePanel({ isOpen, onClose, data }: SidePanelProps) {
             </div>
 
             {/* Multi-Quiz Section */}
-            {data.status !== 'cleared' && !isLocked && data.quizzes && data.quizzes.length > 0 && !quizPassed && (
+            {data.status !== 'cleared' && !isLocked && activeQuizzes.length > 0 && !quizPassed && (
               <div className="bg-gray-800/80 p-5 rounded-xl border border-gray-700 shadow-lg">
                 <div className="flex justify-between items-center mb-4 text-orange-400">
                   <div className="flex items-center space-x-2">
                     <HelpCircle size={18} />
                     <h3 className="font-semibold">Knowledge Check</h3>
                   </div>
-                  <span className="text-xs font-bold bg-gray-900 px-2 py-1 rounded text-gray-300">
-                    Question {currentQuizIndex + 1} of {data.quizzes.length}
-                  </span>
+                  <div className="flex flex-col items-end">
+                    <span className="text-xs font-bold bg-gray-900 px-2 py-1 rounded text-gray-300">
+                      Question {currentQuizIndex + 1} of {activeQuizzes.length}
+                    </span>
+                    <span className={`text-[10px] mt-1 font-bold ${attempts >= 2 ? 'text-red-500' : 'text-gray-500'}`}>
+                      Attempts: {attempts}/{MAX_ATTEMPTS}
+                    </span>
+                  </div>
                 </div>
                 
-                <p className="text-sm text-white mb-4">{data.quizzes[currentQuizIndex].question}</p>
-                
-                <div className="space-y-2 mb-4">
-                  {data.quizzes[currentQuizIndex].options.map((opt, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => {
-                        setSelectedAnswer(idx);
-                        setQuizError(false);
-                      }}
-                      className={`w-full text-left p-3 rounded-lg text-sm transition-all border ${
-                        selectedAnswer === idx 
-                          ? 'bg-orange-900/40 border-orange-500 text-orange-100' 
-                          : 'bg-gray-900 border-gray-700 text-gray-300 hover:border-gray-500'
+                {attempts < MAX_ATTEMPTS ? (
+                  <>
+                    <p className="text-sm text-white mb-4">{activeQuizzes[currentQuizIndex].question}</p>
+                    
+                    <div className="space-y-2 mb-4">
+                      {activeQuizzes[currentQuizIndex].options.map((opt, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setSelectedAnswer(idx);
+                            setQuizError(false);
+                          }}
+                          className={`w-full text-left p-3 rounded-lg text-sm transition-all border ${
+                            selectedAnswer === idx 
+                              ? 'bg-orange-900/40 border-orange-500 text-orange-100' 
+                              : 'bg-gray-900 border-gray-700 text-gray-300 hover:border-gray-500'
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+
+                    {quizError && (
+                      <p className="text-red-400 text-xs mb-4 text-center font-medium animate-pulse">
+                        Incorrect! {MAX_ATTEMPTS - attempts} attempts remaining.
+                      </p>
+                    )}
+
+                    <button 
+                      onClick={handleNextQuestion}
+                      disabled={selectedAnswer === null}
+                      className={`w-full py-3 px-4 rounded-xl font-bold tracking-wide transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] flex items-center justify-center gap-2 ${
+                        selectedAnswer === null
+                          ? 'bg-gray-700 text-gray-400 cursor-not-allowed border border-gray-600'
+                          : 'bg-orange-600 hover:bg-orange-500 text-white hover:shadow-[0_0_25px_rgba(249,115,22,0.5)]'
                       }`}
                     >
-                      {opt}
+                      {currentQuizIndex < activeQuizzes.length - 1 ? 'Next Question' : 'Complete Quiz'}
                     </button>
-                  ))}
-                </div>
+                  </>
+                ) : (
+                  <div className="text-center py-4">
+                    <AlertTriangle size={40} className="text-red-500 mx-auto mb-3" />
+                    <h4 className="text-red-400 font-bold mb-2">Quiz Failed</h4>
+                    <p className="text-gray-400 text-xs mb-6">
+                      You've exhausted all attempts. Your skill level has been adjusted to <span className="text-orange-400 font-bold">{skillLevel}</span> to provide easier content.
+                    </p>
+                    
+                    {supportiveToDisplay.length > 0 && (
+                      <div className="mb-6 text-left">
+                        <h5 className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-3 flex items-center gap-2">
+                          <BookOpen size={14} className="text-cyan-400" />
+                          Easier Ways to Learn
+                        </h5>
+                        <div className="space-y-2">
+                          {supportiveToDisplay.map((res, idx) => (
+                            <a
+                              key={idx}
+                              href={res.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block p-3 rounded-lg bg-cyan-900/20 border border-cyan-700/30 hover:bg-cyan-900/30 transition-all group"
+                            >
+                              <div className="text-xs font-bold text-cyan-400 group-hover:text-cyan-300">
+                                {res.title}
+                              </div>
+                              <div className="text-[10px] text-gray-500 mt-0.5 uppercase">
+                                {res.type}
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
-                {quizError && (
-                  <p className="text-red-400 text-xs mb-4 text-center font-medium animate-pulse">
-                    Incorrect! Review the resources and try again.
-                  </p>
+                    <button 
+                      onClick={handleResetQuiz}
+                      className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-500 text-white rounded-xl font-bold shadow-[0_0_15px_rgba(249,115,22,0.4)] transition-all flex items-center justify-center gap-2"
+                    >
+                      Try {skillLevel} Quiz
+                    </button>
+                  </div>
                 )}
-
-                <button 
-                  onClick={handleNextQuestion}
-                  disabled={selectedAnswer === null}
-                  className={`w-full py-3 px-4 rounded-xl font-bold tracking-wide transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] flex items-center justify-center gap-2 ${
-                    selectedAnswer === null
-                      ? 'bg-gray-700 text-gray-400 cursor-not-allowed border border-gray-600'
-                      : 'bg-orange-600 hover:bg-orange-500 text-white hover:shadow-[0_0_25px_rgba(249,115,22,0.5)]'
-                  }`}
-                >
-                  {currentQuizIndex < data.quizzes.length - 1 ? 'Next Question' : 'Complete Quiz'}
-                </button>
               </div>
             )}
 

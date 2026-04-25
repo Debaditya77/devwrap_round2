@@ -9,7 +9,7 @@ const reactBeginner = {
       id: "node-1",
       type: "custom",
       data: {
-        label: "React Foundations (Beginner)",
+        label: "React Foundations",
         status: "pending",
         description: "The essential building blocks: JSX, Components, and Props.",
         explainability: "AI Reasoning: Absolute beginners must understand how to construct static components before adding interactivity.",
@@ -17,35 +17,28 @@ const reactBeginner = {
           { title: "React Official Docs: Quick Start", url: "https://react.dev/learn", type: "Documentation" },
           { title: "React in 100 Seconds (Fireship)", url: "https://www.youtube.com/watch?v=Tn6-PIqc4UM", type: "Video" }
         ],
-        timeEstimate: "3 days",
-        quizzes: [
-          { question: "What does JSX stand for?", options: ["JavaScript XML", "Java Syntax Extension", "JSON XML", "JavaScript Execution"], correctAnswerIndex: 0 },
-          { question: "How do you pass data from a parent component to a child component?", options: ["Using State", "Using Props", "Using Context", "Using Redux"], correctAnswerIndex: 1 }
-        ]
-      },
-      position: { x: 0, y: 0 }
-    },
-    {
-      id: "node-2",
-      type: "custom",
-      data: {
-        label: "Basic State (useState)",
-        status: "pending",
-        description: "Managing basic interactive data.",
-        explainability: "AI Reasoning: State allows your app to respond to user clicks, typing, and local interactions.",
-        resources: [
-          { title: "State: A Component's Memory", url: "https://react.dev/learn/state-a-components-memory", type: "Documentation" }
+        supportiveResources: [
+          { title: "React Visual Guide", url: "https://react.dev/learn/thinking-in-react", type: "Documentation" },
+          { title: "JSX Simply Explained", url: "https://www.youtube.com/results?search_query=jsx+explained", type: "Video" }
         ],
-        timeEstimate: "4 days",
-        quizzes: [
-          { question: "Which Hook is used to add state to a function component?", options: ["useEffect", "useContext", "useState", "useMemo"], correctAnswerIndex: 2 },
-          { question: "Can you mutate state directly? (e.g., state = 'new value')", options: ["Yes", "No, you must use the setter function", "Only in class components", "Only in Next.js"], correctAnswerIndex: 1 }
-        ]
+        timeEstimate: "3 days",
+        quizzes: {
+          beginner: [
+            { question: "What does JSX stand for?", options: ["JavaScript XML", "Java Syntax Extension", "JSON XML", "JavaScript Execution"], correctAnswerIndex: 0 },
+            { question: "How do you pass data to children?", options: ["Using Props", "Using State"], correctAnswerIndex: 0 }
+          ],
+          intermediate: [
+            { question: "What is the primary rule of JSX?", options: ["Must have one parent element", "Must be written in CSS", "Must use only divs"], correctAnswerIndex: 0 }
+          ],
+          advanced: [
+            { question: "How does React handle JSX under the hood?", options: ["React.createElement calls", "String concatenation", "Direct DOM injection"], correctAnswerIndex: 0 }
+          ]
+        }
       },
       position: { x: 0, y: 0 }
     }
   ],
-  edges: [{ id: "edge-1", source: "node-1", target: "node-2" }]
+  edges: []
 };
 
 const reactIntermediate = {
@@ -54,66 +47,33 @@ const reactIntermediate = {
       id: "node-1",
       type: "custom",
       data: {
-        label: "Advanced Hooks (Intermediate)",
+        label: "Advanced Hooks",
         status: "pending",
         description: "useEffect, useRef, and custom hooks.",
-        explainability: "AI Reasoning: Intermediates need to master side effects, DOM manipulation, and reusable logic.",
+        explainability: "AI Reasoning: Intermediates need to master side effects and reusable logic.",
         resources: [
-          { title: "Synchronizing with Effects", url: "https://react.dev/learn/synchronizing-with-effects", type: "Documentation" },
-          { title: "Learn React Hooks (WebDevSimplified)", url: "https://www.youtube.com/watch?v=O6P86uwfdR0", type: "Video" }
+          { title: "Synchronizing with Effects", url: "https://react.dev/learn/synchronizing-with-effects", type: "Documentation" }
+        ],
+        supportiveResources: [
+          { title: "useEffect for Beginners", url: "https://www.youtube.com/watch?v=0ZJgIjIuY7U", type: "Video" }
         ],
         timeEstimate: "1 week",
-        quizzes: [
-          { question: "What does the dependency array in useEffect do?", options: ["Nothing", "Controls when the effect runs", "Caches data", "Creates a variable"], correctAnswerIndex: 1 },
-          { question: "When should you use a Custom Hook?", options: ["To share stateful logic between components", "To make CSS load faster", "To replace a database", "Never"], correctAnswerIndex: 0 }
-        ]
-      },
-      position: { x: 0, y: 0 }
-    },
-    {
-      id: "node-2",
-      type: "custom",
-      data: {
-        label: "Next.js App Router",
-        status: "pending",
-        description: "Server-Side Rendering, Routing, and SEO.",
-        explainability: "AI Reasoning: Modern React development relies heavily on frameworks like Next.js for production.",
-        resources: [
-          { title: "Next.js App Router Docs", url: "https://nextjs.org/docs/app", type: "Documentation" },
-          { title: "Next.js Full Course (Codevolution)", url: "https://www.youtube.com/watch?v=ZjAqacIC_3c", type: "Video" }
-        ],
-        timeEstimate: "2 weeks",
-        quizzes: [
-          { question: "What is a major benefit of Next.js Server-Side Rendering (SSR)?", options: ["It makes the CSS look better", "It improves initial load time and SEO", "It prevents bugs", "It writes code automatically"], correctAnswerIndex: 1 },
-          { question: "In the Next.js App Router, what file defines a route UI?", options: ["route.tsx", "index.tsx", "page.tsx", "view.tsx"], correctAnswerIndex: 2 }
-        ]
-      },
-      position: { x: 0, y: 0 }
-    },
-    {
-      id: "node-3",
-      type: "custom",
-      data: {
-        label: "Global State (Zustand)",
-        status: "pending",
-        description: "Managing global state without prop drilling.",
-        explainability: "AI Reasoning: As apps grow, passing props down 10 levels becomes impossible. Global state fixes this.",
-        resources: [
-          { title: "Zustand Documentation", url: "https://docs.pmnd.rs/zustand/getting-started/introduction", type: "Documentation" }
-        ],
-        timeEstimate: "1 week",
-        quizzes: [
-          { question: "What problem does global state management solve?", options: ["Slow CSS loading", "Prop Drilling", "Server-Side Rendering", "Database connection errors"], correctAnswerIndex: 1 },
-          { question: "Why is Zustand often preferred over Redux?", options: ["It requires more boilerplate", "It is officially made by Facebook", "It is simpler and requires less boilerplate", "It uses GraphQL"], correctAnswerIndex: 2 }
-        ]
+        quizzes: {
+          beginner: [
+            { question: "What is useEffect used for?", options: ["Side effects", "Styling"], correctAnswerIndex: 0 }
+          ],
+          intermediate: [
+            { question: "What does the dependency array do?", options: ["Controls execution", "Stores data"], correctAnswerIndex: 0 }
+          ],
+          advanced: [
+            { question: "When does useLayoutEffect run compared to useEffect?", options: ["Before paint", "After paint"], correctAnswerIndex: 0 }
+          ]
+        }
       },
       position: { x: 0, y: 0 }
     }
   ],
-  edges: [
-    { id: "edge-1", source: "node-1", target: "node-2" },
-    { id: "edge-2", source: "node-2", target: "node-3" }
-  ]
+  edges: []
 };
 
 const reactAdvanced = {
@@ -122,42 +82,33 @@ const reactAdvanced = {
       id: "node-1",
       type: "custom",
       data: {
-        label: "Enterprise Architecture (Advanced)",
+        label: "React Server Components",
         status: "pending",
-        description: "Micro-frontends, Monorepos (Turborepo), and strictly typed systems.",
-        explainability: "AI Reasoning: Advanced devs must know how to scale applications for massive teams.",
-        resources: [
-          { title: "Turborepo Docs", url: "https://turbo.build/repo/docs", type: "Documentation" }
-        ],
-        timeEstimate: "2 weeks",
-        quizzes: [
-          { question: "What is the primary benefit of a Monorepo?", options: ["Slower builds", "Code sharing and atomic commits across multiple apps", "Better CSS", "No need for a database"], correctAnswerIndex: 1 },
-          { question: "What does Turborepo use to speed up builds?", options: ["Remote Caching", "Magic", "Deleting old code", "Switching to Vue"], correctAnswerIndex: 0 }
-        ]
-      },
-      position: { x: 0, y: 0 }
-    },
-    {
-      id: "node-2",
-      type: "custom",
-      data: {
-        label: "React Server Components (RSC)",
-        status: "pending",
-        description: "Deep dive into RSC, streaming, and Suspense architecture.",
-        explainability: "AI Reasoning: RSC is the future of React. Mastering it is required for elite performance.",
+        description: "Deep dive into RSC and streaming.",
+        explainability: "AI Reasoning: RSC is the future of React architecture.",
         resources: [
           { title: "Understanding RSC", url: "https://vercel.com/blog/understanding-react-server-components", type: "Article" }
         ],
+        supportiveResources: [
+          { title: "RSC Basics Explained", url: "https://www.youtube.com/results?search_query=react+server+components+explained", type: "Video" }
+        ],
         timeEstimate: "2 weeks",
-        quizzes: [
-          { question: "What happens to React Server Components in the final browser bundle?", options: ["They are included entirely", "They have zero bundle size", "They turn into Vue components", "They crash"], correctAnswerIndex: 1 },
-          { question: "Which component boundary enables streaming HTML?", options: ["<ErrorBoundary>", "<Suspense>", "<Context>", "<Fragment>"], correctAnswerIndex: 1 }
-        ]
+        quizzes: {
+          beginner: [
+            { question: "Do Server Components run on the client?", options: ["No", "Yes"], correctAnswerIndex: 0 }
+          ],
+          intermediate: [
+            { question: "What is a major benefit of RSC?", options: ["Reduced bundle size", "Better CSS"], correctAnswerIndex: 0 }
+          ],
+          advanced: [
+            { question: "How does RSC serialization work?", options: ["JSON-like stream", "Base64 strings"], correctAnswerIndex: 0 }
+          ]
+        }
       },
       position: { x: 0, y: 0 }
     }
   ],
-  edges: [{ id: "edge-1", source: "node-1", target: "node-2" }]
+  edges: []
 };
 
 // -------------------------------------------------------------
@@ -169,19 +120,28 @@ const pythonBeginner = {
       id: "node-1",
       type: "custom",
       data: {
-        label: "Python Syntax (Beginner)",
+        label: "Python Syntax",
         status: "pending",
         description: "Variables, Data Types, and Control Flow.",
         explainability: "AI Reasoning: The absolute core syntax required to write any Python script.",
         resources: [
-          { title: "Python Official Tutorial", url: "https://docs.python.org/3/tutorial/index.html", type: "Documentation" },
-          { title: "Python for Beginners (Programming with Mosh)", url: "https://www.youtube.com/watch?v=kqtD5dpn9C8", type: "Video" }
+          { title: "Python Official Tutorial", url: "https://docs.python.org/3/tutorial/index.html", type: "Documentation" }
+        ],
+        supportiveResources: [
+          { title: "Python for Absolute Beginners", url: "https://www.youtube.com/watch?v=kqtD5dpn9C8", type: "Video" }
         ],
         timeEstimate: "1 week",
-        quizzes: [
-          { question: "How do you create a list in Python?", options: ["my_list = {}", "my_list = ()", "my_list = []", "my_list = <>"], correctAnswerIndex: 2 },
-          { question: "Which keyword is used to define a function?", options: ["func", "def", "function", "create"], correctAnswerIndex: 1 }
-        ]
+        quizzes: {
+          beginner: [
+            { question: "How do you create a list in Python?", options: ["my_list = []", "my_list = {}"], correctAnswerIndex: 0 }
+          ],
+          intermediate: [
+            { question: "Which keyword defines a function?", options: ["def", "func"], correctAnswerIndex: 0 }
+          ],
+          advanced: [
+            { question: "What is a list comprehension?", options: ["A concise way to create lists", "A type of database"], correctAnswerIndex: 0 }
+          ]
+        }
       },
       position: { x: 0, y: 0 }
     }
@@ -195,18 +155,28 @@ const pythonIntermediate = {
       id: "node-1",
       type: "custom",
       data: {
-        label: "OOP & APIs (Intermediate)",
+        label: "OOP & APIs",
         status: "pending",
         description: "Classes, Inheritance, and the Requests library.",
-        explainability: "AI Reasoning: Intermediate developers must connect their scripts to the web and structure code safely.",
+        explainability: "AI Reasoning: Intermediate developers must structure code safely.",
         resources: [
           { title: "Real Python: OOP", url: "https://realpython.com/python3-object-oriented-programming/", type: "Article" }
         ],
+        supportiveResources: [
+          { title: "OOP Simplified", url: "https://www.youtube.com/results?search_query=python+oop+explained", type: "Video" }
+        ],
         timeEstimate: "2 weeks",
-        quizzes: [
-          { question: "What method initializes an object?", options: ["__start__", "init()", "__init__", "constructor()"], correctAnswerIndex: 2 },
-          { question: "Which library is standard for making HTTP requests in Python?", options: ["fetch", "axios", "requests", "http"], correctAnswerIndex: 2 }
-        ]
+        quizzes: {
+          beginner: [
+            { question: "What method initializes an object?", options: ["__init__", "start"], correctAnswerIndex: 0 }
+          ],
+          intermediate: [
+            { question: "Which library is for HTTP requests?", options: ["requests", "axios"], correctAnswerIndex: 0 }
+          ],
+          advanced: [
+            { question: "What is multiple inheritance?", options: ["Inheriting from more than one class", "Inheriting twice"], correctAnswerIndex: 0 }
+          ]
+        }
       },
       position: { x: 0, y: 0 }
     }
@@ -220,18 +190,28 @@ const pythonAdvanced = {
       id: "node-1",
       type: "custom",
       data: {
-        label: "Concurrency & ML (Advanced)",
+        label: "Concurrency & ML",
         status: "pending",
         description: "asyncio, multithreading, and PyTorch.",
-        explainability: "AI Reasoning: Elite Python devs must handle high-throughput IO operations and leverage AI pipelines.",
+        explainability: "AI Reasoning: Elite Python devs must handle high-throughput operations.",
         resources: [
           { title: "Asyncio Docs", url: "https://docs.python.org/3/library/asyncio.html", type: "Documentation" }
         ],
+        supportiveResources: [
+          { title: "Async Explained Simply", url: "https://www.youtube.com/results?search_query=python+asyncio+explained", type: "Video" }
+        ],
         timeEstimate: "3 weeks",
-        quizzes: [
-          { question: "What does the 'await' keyword do?", options: ["Deletes a file", "Pauses coroutine execution until an awaitable is done", "Stops the server", "Makes code synchronous"], correctAnswerIndex: 1 },
-          { question: "What is PyTorch primarily used for?", options: ["Web Design", "Deep Learning & Tensors", "Database Management", "HTML parsing"], correctAnswerIndex: 1 }
-        ]
+        quizzes: {
+          beginner: [
+            { question: "What does await do?", options: ["Pauses execution", "Stops the app"], correctAnswerIndex: 0 }
+          ],
+          intermediate: [
+            { question: "What is PyTorch for?", options: ["Deep Learning", "Web Design"], correctAnswerIndex: 0 }
+          ],
+          advanced: [
+            { question: "What is the Global Interpreter Lock (GIL)?", options: ["A mutex that protects access to Python objects", "A type of file lock"], correctAnswerIndex: 0 }
+          ]
+        }
       },
       position: { x: 0, y: 0 }
     }
@@ -244,180 +224,67 @@ const pythonAdvanced = {
 // -------------------------------------------------------------
 const generateGenericGraph = (goal: string, level: string) => {
   const goalCap = goal.charAt(0).toUpperCase() + goal.slice(1);
-  const lowerLevel = level.toLowerCase();
-
-  // ADVANCED: 4 Nodes, 4 Difficult Questions per node
-  if (lowerLevel.includes('advanced')) {
-    return {
-      nodes: [
-        {
-          id: "node-1", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `Enterprise ${goalCap} Architecture`, status: "pending",
-            description: `Designing highly scalable, fault-tolerant systems using ${goalCap}.`,
-            explainability: `AI Reasoning: Advanced engineers must master high-availability and distributed architecture.`,
-            resources: [{ title: `Advanced ${goalCap} Scaling`, url: `https://dev.to/search?q=${goal}+enterprise+architecture`, type: "Article" }],
-            timeEstimate: "2 weeks",
-            quizzes: [
-              { question: `What is the primary bottleneck when scaling ${goalCap} across multiple availability zones?`, options: ["Network latency", "CSS loading", "Syntax errors", "Variable naming"], correctAnswerIndex: 0 },
-              { question: `Which design pattern is most critical for fault tolerance in ${goalCap}?`, options: ["Circuit Breaker", "Singleton", "Factory", "Observer"], correctAnswerIndex: 0 },
-              { question: `How do you resolve memory leaks in a long-running ${goalCap} service?`, options: ["Reboot the server daily", "Implement proper garbage collection and heap profiling", "Ignore them", "Increase RAM infinitely"], correctAnswerIndex: 1 },
-              { question: `In a microservices architecture, how should ${goalCap} services communicate securely?`, options: ["Plain HTTP", "Shared databases", "mTLS and JWT tokens", "Email"], correctAnswerIndex: 2 }
-            ]
-          }
-        },
-        {
-          id: "node-2", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `${goalCap} CI/CD & DevOps`, status: "pending",
-            description: `Automating testing, deployment, and infrastructure for ${goalCap}.`,
-            explainability: `AI Reasoning: You cannot deploy enterprise apps manually.`,
-            resources: [{ title: `${goalCap} Docker & Kubernetes`, url: `https://www.youtube.com/results?search_query=${goal}+kubernetes+docker`, type: "Video" }],
-            timeEstimate: "2 weeks",
-            quizzes: [
-              { question: `What is the safest deployment strategy for ${goalCap} in production?`, options: ["Blue-Green / Canary", "FTP Upload", "Direct to Main", "Live Server"], correctAnswerIndex: 0 },
-              { question: `How should secrets be injected into ${goalCap} containers?`, options: ["Hardcoded in repo", "Environment Variables via Vault", "Text files", "Comments"], correctAnswerIndex: 1 },
-              { question: `Which metric is most important for automated rollbacks?`, options: ["Error Rate Spikes", "Lines of Code", "Color theme", "Font size"], correctAnswerIndex: 0 },
-              { question: `What is immutable infrastructure?`, options: ["Servers that never crash", "Servers that are replaced rather than modified", "Servers without SSH", "Servers running Windows"], correctAnswerIndex: 1 }
-            ]
-          }
-        },
-        {
-          id: "node-3", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `Deep Performance Profiling`, status: "pending",
-            description: `Analyzing flame graphs and optimizing CPU/IO operations.`,
-            explainability: `AI Reasoning: 100ms of latency costs millions at scale.`,
-            resources: [{ title: `Optimizing ${goalCap}`, url: `https://www.youtube.com/results?search_query=${goal}+performance+profiling`, type: "Video" }],
-            timeEstimate: "1 week",
-            quizzes: [
-              { question: `What tool is used to visualize stack traces over time?`, options: ["Flame Graphs", "Pie Charts", "Line Graphs", "Bar Charts"], correctAnswerIndex: 0 },
-              { question: `Is ${goalCap} generally CPU-bound or IO-bound?`, options: ["CPU-bound", "IO-bound", "It depends entirely on the workload", "Neither"], correctAnswerIndex: 2 },
-              { question: `What causes event loop blocking?`, options: ["Async functions", "Synchronous heavy computations", "Promises", "Callbacks"], correctAnswerIndex: 1 },
-              { question: `How do you mitigate heavy computations in ${goalCap}?`, options: ["Worker Threads / Background Jobs", "Write less code", "Use a slower CPU", "Disable CSS"], correctAnswerIndex: 0 }
-            ]
-          }
-        },
-        {
-          id: "node-4", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `Advanced Security & Zero Trust`, status: "pending",
-            description: `Securing ${goalCap} against OWASP Top 10 vulnerabilities.`,
-            explainability: `AI Reasoning: Security must be treated as a tier-1 feature.`,
-            resources: [{ title: `OWASP and ${goalCap}`, url: `https://owasp.org/`, type: "Documentation" }],
-            timeEstimate: "2 weeks",
-            quizzes: [
-              { question: `What prevents Cross-Site Scripting (XSS) in modern apps?`, options: ["Disabling JS", "Strict Content Security Policy (CSP)", "Using HTTPS", "Using VPNs"], correctAnswerIndex: 1 },
-              { question: `How do you prevent SQL Injection?`, options: ["Prepared Statements / Parameterized Queries", "Base64 Encoding", "Firewalls", "Antivirus"], correctAnswerIndex: 0 },
-              { question: `What is Zero Trust Architecture?`, options: ["Trusting no user, even inside the VPN", "Trusting everyone", "Trusting only admins", "Trusting APIs"], correctAnswerIndex: 0 },
-              { question: `Why is Rate Limiting necessary?`, options: ["To save bandwidth", "To prevent DDoS and Brute Force attacks", "To annoy users", "To speed up the app"], correctAnswerIndex: 1 }
-            ]
-          }
-        }
-      ],
-      edges: [
-        { id: "edge-1", source: "node-1", target: "node-2" },
-        { id: "edge-2", source: "node-2", target: "node-3" },
-        { id: "edge-3", source: "node-3", target: "node-4" }
-      ]
-    };
-  } 
   
-  // INTERMEDIATE: 3 Nodes, 3 Intermediate Questions per node
-  else if (lowerLevel.includes('intermediate')) {
-    return {
-      nodes: [
-        {
-          id: "node-1", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `Core Architecture of ${goalCap}`, status: "pending",
-            description: `Moving beyond syntax: Design patterns and best practices.`,
-            explainability: `AI Reasoning: Intermediate developers must understand how to structure medium-to-large projects.`,
-            resources: [{ title: `Best Practices: ${goalCap}`, url: `https://dev.to/search?q=${goal}+best+practices`, type: "Article" }],
-            timeEstimate: "1 week",
-            quizzes: [
-              { question: `What is the main advantage of the MVC pattern?`, options: ["It runs faster", "Separation of Concerns (Data, UI, Logic)", "It requires no database", "It looks better"], correctAnswerIndex: 1 },
-              { question: `When using ${goalCap}, why should you avoid global variables?`, options: ["They cause memory leaks and unpredictable state mutations", "They are illegal", "They slow down the internet", "They crash the browser"], correctAnswerIndex: 0 },
-              { question: `What is DRY programming?`, options: ["Don't Repeat Yourself", "Do Repeat Yourself", "Data Rendering Yield", "Direct Routing YAML"], correctAnswerIndex: 0 }
-            ]
-          }
-        },
-        {
-          id: "node-2", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `State Management & APIs`, status: "pending",
-            description: `Connecting ${goalCap} to external data sources.`,
-            explainability: `AI Reasoning: Apps are useless without dynamic data from APIs.`,
-            resources: [{ title: `API Integration in ${goalCap}`, url: `https://www.youtube.com/results?search_query=${goal}+API+integration`, type: "Video" }],
-            timeEstimate: "2 weeks",
-            quizzes: [
-              { question: `What is a REST API?`, options: ["A fast database", "Representational State Transfer over HTTP", "A type of variable", "A UI library"], correctAnswerIndex: 1 },
-              { question: `What HTTP method is used to UPDATE existing data?`, options: ["GET", "POST", "PUT/PATCH", "DELETE"], correctAnswerIndex: 2 },
-              { question: `What status code indicates "Not Found"?`, options: ["200", "500", "404", "401"], correctAnswerIndex: 2 }
-            ]
-          }
-        },
-        {
-          id: "node-3", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `Testing & Debugging`, status: "pending",
-            description: `Writing unit tests and integration tests.`,
-            explainability: `AI Reasoning: Code without tests is legacy code the moment it is written.`,
-            resources: [{ title: `Testing ${goalCap} Apps`, url: `https://www.youtube.com/results?search_query=${goal}+testing+tutorial`, type: "Video" }],
-            timeEstimate: "1 week",
-            quizzes: [
-              { question: `What is Unit Testing?`, options: ["Testing the whole app at once", "Testing individual functions in isolation", "Testing the database", "Testing CSS"], correctAnswerIndex: 1 },
-              { question: `What does TDD stand for?`, options: ["Test Driven Development", "Total Data Destruction", "Two Dimensional Data", "Time Driven Deployment"], correctAnswerIndex: 0 },
-              { question: `Why use a debugger instead of print statements?`, options: ["Print statements are faster", "Debuggers allow pausing execution and inspecting scope", "Debuggers write code for you", "There is no difference"], correctAnswerIndex: 1 }
+  return {
+    nodes: [
+      {
+        id: "node-1", type: "custom", position: { x: 0, y: 0 },
+        data: {
+          label: `Foundations of ${goalCap}`, status: "pending",
+          description: `The core principles and building blocks of ${goalCap}.`,
+          explainability: `AI Reasoning: Establishing a strong conceptual foundation is the first step in mastering ${goalCap}.`,
+          resources: [{ title: `Getting Started with ${goalCap}`, url: `https://www.google.com/search?q=${goal}+getting+started`, type: "Documentation" }],
+          supportiveResources: [
+            { title: "Visual Beginner's Guide", url: "https://www.youtube.com/results?search_query=" + goal + "+explained+simply", type: "Video" },
+            { title: "Simplified Concept Map", url: "https://en.wikipedia.org/wiki/" + goal, type: "Article" }
+          ],
+          timeEstimate: "1 week",
+          quizzes: {
+            beginner: [
+              { question: `What is ${goalCap} primarily used for?`, options: ["General purpose development", "Making coffee", "Cleaning windows", "None of the above"], correctAnswerIndex: 0 },
+              { question: `True or False: ${goalCap} requires a computer to run.`, options: ["True", "False"], correctAnswerIndex: 0 }
+            ],
+            intermediate: [
+              { question: `Which design pattern is commonly used in ${goalCap}?`, options: ["MVC", "XYZ", "ABC", "123"], correctAnswerIndex: 0 },
+              { question: `How do you handle asynchronous operations in ${goalCap}?`, options: ["Using Callbacks/Promises", "Wait and see", "Hope for the best", "Sync everything"], correctAnswerIndex: 0 }
+            ],
+            advanced: [
+              { question: `In a high-concurrency environment, how does ${goalCap} manage state?`, options: ["Optimistic Locking", "Global Locks", "No management", "Manual RAM editing"], correctAnswerIndex: 0 },
+              { question: `What is the O(n) complexity of the primary search algorithm in ${goalCap}?`, options: ["O(log n)", "O(n^2)", "O(1)", "O(n!)"], correctAnswerIndex: 0 }
             ]
           }
         }
-      ],
-      edges: [
-        { id: "edge-1", source: "node-1", target: "node-2" },
-        { id: "edge-2", source: "node-2", target: "node-3" }
-      ]
-    };
-  }
-
-  // BEGINNER: 2 Nodes, 2 Basic Questions per node
-  else {
-    return {
-      nodes: [
-        {
-          id: "node-1", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `Foundations of ${goalCap}`, status: "pending",
-            description: `The absolute basics: Syntax, Setup, and Hello World.`,
-            explainability: `AI Reasoning: You must crawl before you can walk.`,
-            resources: [{ title: `${goalCap} for Absolute Beginners`, url: `https://www.youtube.com/results?search_query=${goal}+for+beginners`, type: "Video" }],
-            timeEstimate: "1 week",
-            quizzes: [
-              { question: `What is the first thing you typically write when learning a new technology?`, options: ["A full enterprise app", "Hello World", "A database schema", "A REST API"], correctAnswerIndex: 1 },
-              { question: `Why is reading documentation important?`, options: ["It provides the official rules and syntax", "It generates code for you", "It is legally required", "It isn't important"], correctAnswerIndex: 0 }
-            ]
-          }
-        },
-        {
-          id: "node-2", type: "custom", position: { x: 0, y: 0 },
-          data: {
-            label: `Basic Implementation`, status: "pending",
-            description: `Writing your first functional program using ${goalCap}.`,
-            explainability: `AI Reasoning: Theory must be immediately applied to build muscle memory.`,
-            resources: [{ title: `Building your first ${goalCap} App`, url: `https://www.youtube.com/results?search_query=${goal}+first+project`, type: "Video" }],
-            timeEstimate: "2 weeks",
-            quizzes: [
-              { question: `What is a Variable?`, options: ["A static number", "A container for storing data values", "A UI component", "A database table"], correctAnswerIndex: 1 },
-              { question: `What is the purpose of a Loop?`, options: ["To stop execution", "To execute a block of code multiple times", "To style the page", "To delete files"], correctAnswerIndex: 1 }
+      },
+      {
+        id: "node-2", type: "custom", position: { x: 0, y: 0 },
+        data: {
+          label: `Advanced ${goalCap} Implementation`, status: "pending",
+          description: `Applying ${goalCap} to solve real-world engineering problems.`,
+          explainability: `AI Reasoning: Moving from theory to practice requires understanding implementation trade-offs.`,
+          resources: [{ title: `${goalCap} in Production`, url: `https://dev.to/search?q=${goal}+production`, type: "Article" }],
+          supportiveResources: [
+            { title: "Step-by-Step Workshop", url: "https://www.youtube.com/results?search_query=" + goal + "+project+tutorial", type: "Video" },
+            { title: "Cheat Sheet", url: "https://quickref.me/" + goal, type: "Article" }
+          ],
+          timeEstimate: "2 weeks",
+          quizzes: {
+            beginner: [
+              { question: `What is a basic function in ${goalCap}?`, options: ["A reusable block of code", "A type of variable", "A styling rule", "A database query"], correctAnswerIndex: 0 }
+            ],
+            intermediate: [
+              { question: `How do you optimize performance in a ${goalCap} application?`, options: ["Caching and Indexing", "Adding more comments", "Changing font size", "Buying a new PC"], correctAnswerIndex: 0 }
+            ],
+            advanced: [
+              { question: `Describe the memory management model of ${goalCap}.`, options: ["Heap and Stack allocation", "Random placement", "Direct Disk access", "Manual bit flipping"], correctAnswerIndex: 0 }
             ]
           }
         }
-      ],
-      edges: [
-        { id: "edge-1", source: "node-1", target: "node-2" }
-      ]
-    };
-  }
+      }
+    ],
+    edges: [
+      { id: "edge-1", source: "node-1", target: "node-2" }
+    ]
+  };
 };
 
 export async function POST(req: Request) {
