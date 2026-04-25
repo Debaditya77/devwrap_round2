@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  devIndicators: {
-    appIsrStatus: false,
-    buildActivity: false,
-  },
+  /* Config is now clean. Indicators are hidden via globals.css */
 };
 
 export default nextConfig;
