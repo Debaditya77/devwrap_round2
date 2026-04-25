@@ -9,12 +9,14 @@ interface SkillMapState {
   nodes: Node[];
   edges: Edge[];
   user: any | null;
+  lastLearnedTimestamps: Record<string, number>;
   setGraphData: (nodes: Node[], edges: Edge[]) => void;
   setUserGoal: (goal: string) => void;
   setSkillLevel: (level: string) => void;
   setCurrentPathId: (id: string | null) => void;
   setUser: (user: any | null) => void;
   markNodeAsCleared: (nodeId: string) => void;
+  updateLastLearned: (pathId: string) => void;
   cachedCommunityPaths: any[] | null;
   cachedUserPaths: any[] | null;
   setCachedCommunityPaths: (paths: any[]) => void;
@@ -30,6 +32,7 @@ export const useStore = create<SkillMapState>()(
       nodes: [],
       edges: [],
       user: null,
+      lastLearnedTimestamps: {},
       setGraphData: (nodes, edges) => set({ nodes, edges }),
       setUserGoal: (goal) => set({ userGoal: goal }),
       setSkillLevel: (level) => set({ skillLevel: level }),
@@ -41,6 +44,12 @@ export const useStore = create<SkillMapState>()(
             ? { ...node, data: { ...node.data, status: 'cleared' } }
             : node
         )
+      })),
+      updateLastLearned: (pathId) => set((state) => ({
+        lastLearnedTimestamps: {
+          ...state.lastLearnedTimestamps,
+          [pathId]: Date.now()
+        }
       })),
       cachedCommunityPaths: null,
       cachedUserPaths: null,
@@ -57,7 +66,8 @@ export const useStore = create<SkillMapState>()(
         skillLevel: state.skillLevel,
         currentPathId: state.currentPathId,
         cachedUserPaths: state.cachedUserPaths,
-        cachedCommunityPaths: state.cachedCommunityPaths
+        cachedCommunityPaths: state.cachedCommunityPaths,
+        lastLearnedTimestamps: state.lastLearnedTimestamps
       }),
     }
   )

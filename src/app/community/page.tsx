@@ -32,8 +32,15 @@ const OFFICIAL_PATHS = [
 
 export default function Community() {
   const router = useRouter();
-  const { setGraphData, setUserGoal, setSkillLevel, setCurrentPathId } = useStore();
+  const { setGraphData, setUserGoal, setSkillLevel, setCurrentPathId, updateLastLearned, lastLearnedTimestamps } = useStore();
   const [cloningId, setCloningId] = useState<string | null>(null);
+
+  // Sort paths based on last learned timestamps
+  const sortedPaths = [...OFFICIAL_PATHS].sort((a, b) => {
+    const timeA = lastLearnedTimestamps[a.id] || 0;
+    const timeB = lastLearnedTimestamps[b.id] || 0;
+    return timeB - timeA;
+  });
 
   const clonePath = async (path: any) => {
     setCloningId(path.id);
@@ -51,6 +58,9 @@ export default function Community() {
       if (!response.ok) {
         throw new Error(data.error || 'Failed to clone path');
       }
+
+      // Update last learned timestamp
+      updateLastLearned(path.id);
 
       setUserGoal(path.goal);
       setSkillLevel(path.level);
@@ -88,7 +98,7 @@ export default function Community() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
-          {OFFICIAL_PATHS.map((path) => {
+          {sortedPaths.map((path) => {
             const isCloning = cloningId === path.id;
 
             return (

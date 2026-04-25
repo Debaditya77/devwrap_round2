@@ -1,16 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Zap, Settings2, User, LogOut } from 'lucide-react';
+import { Zap, Settings2, User, LogOut, AlertCircle } from 'lucide-react';
 import { auth, googleProvider } from '@/lib/firebase';
 import { signInWithPopup, signOut } from 'firebase/auth';
 import { useStore } from '@/store/useStore';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { user, setUser } = useStore();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -22,9 +24,10 @@ export default function Navbar() {
     }
   };
 
-  const handleLogout = async () => {
+  const confirmLogout = async () => {
     await signOut(auth);
     setUser(null);
+    setShowLogoutConfirm(false);
   };
 
   // Helper to highlight active link
@@ -62,25 +65,75 @@ export default function Navbar() {
         >
           Progress
         </Link>
-        <div className="w-[1px] h-4 bg-gray-700 mx-2"></div>
-        <Link href="/settings" className="p-2 text-gray-400 hover:text-orange-500 transition-colors pointer-events-auto">
-          <Settings2 size={18} />
-        </Link>
+
       </div>
 
       <div className="w-32 flex justify-end pointer-events-auto">
-        {user ? (
-          <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-full transition-all text-sm font-medium shadow-lg hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-            <img src={user.photoURL || ''} alt="Avatar" className="w-6 h-6 rounded-full" />
-            <LogOut size={14} className="text-gray-400" />
-          </button>
-        ) : (
-          <button onClick={handleLogin} className="flex items-center gap-2 px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-full transition-all text-sm font-medium shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.5)]">
-            <User size={16} />
-            Login
-          </button>
+        {pathname !== '/dashboard' && (
+          user ? (
+            <button 
+              onClick={() => setShowLogoutConfirm(true)} 
+              className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-full transition-all text-sm font-medium shadow-lg hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+            >
+              <img src={user.photoURL || ''} alt="Avatar" className="w-6 h-6 rounded-full" />
+              <LogOut size={14} className="text-gray-400" />
+            </button>
+          ) : (
+            <button onClick={handleLogin} className="flex items-center gap-2 px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-full transition-all text-sm font-medium shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.5)]">
+              <User size={16} />
+              Login
+            </button>
+          )
         )}
       </div>
+
+      <AnimatePresence>
+        {showLogoutConfirm && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 pointer-events-auto">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowLogoutConfirm(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-sm bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-600 to-orange-400"></div>
+              
+              <div className="flex flex-col items-center text-center">
+                <div className="p-4 bg-orange-500/10 rounded-2xl border border-orange-500/20 text-orange-500 mb-6">
+                  <AlertCircle size={32} />
+                </div>
+                
+                <h3 className="text-2xl font-light text-white mb-2 tracking-tight">Confirm Sign Out</h3>
+                <p className="text-gray-400 text-sm mb-8 leading-relaxed">
+                  Are you sure you want to end your session? Your progress is saved automatically.
+                </p>
+                
+                <div className="flex w-full gap-3">
+                  <button 
+                    onClick={() => setShowLogoutConfirm(false)}
+                    className="flex-1 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl transition-all text-sm font-medium border border-gray-700"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    onClick={confirmLogout}
+                    className="flex-1 px-6 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-xl transition-all text-sm font-medium shadow-[0_0_15px_rgba(249,115,22,0.3)]"
+                  >
+                    Log Out
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
