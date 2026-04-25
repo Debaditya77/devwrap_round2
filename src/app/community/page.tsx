@@ -66,8 +66,33 @@ export default function Community() {
       setSkillLevel(path.level);
       setGraphData(data.nodes, data.edges);
       
-      // Null path ID makes it an unsaved draft until they interact with it
-      setCurrentPathId(null);
+      // Save to Firestore immediately so progress can be tracked
+      if (useStore.getState().user) {
+        try {
+          const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+          const { db } = await import('@/lib/firebase');
+          
+          addDoc(collection(db, 'paths'), {
+            userId: useStore.getState().user.uid,
+            goal: path.goal,
+            level: path.level,
+            nodes: data.nodes,
+            edges: data.edges,
+            createdAt: serverTimestamp()
+          }).then(docRef => {
+            setCurrentPathId(docRef.id);
+          }).catch(e => {
+            console.error("Error saving path to Firestore: ", e);
+            setCurrentPathId(null);
+          });
+        } catch (e) {
+          console.error("Error initiating save: ", e);
+          setCurrentPathId(null);
+        }
+      } else {
+        setCurrentPathId(null);
+      }
+
       router.push('/dashboard');
     } catch (error) {
       console.error("Failed to clone official path:", error);

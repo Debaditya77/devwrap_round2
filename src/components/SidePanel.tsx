@@ -86,12 +86,25 @@ export default function SidePanel({ isOpen, onClose, data }: SidePanelProps) {
     return parentNode && parentNode.data.status !== 'cleared';
   });
 
-  const handleQuizFailure = () => {
+  const handleQuizFailure = async () => {
     let nextLevel = 'Beginner';
     if (skillLevel === 'Advanced') nextLevel = 'Intermediate';
     else if (skillLevel === 'Intermediate') nextLevel = 'Beginner';
     
     setSkillLevel(nextLevel);
+
+    // Save downgraded level to Firestore
+    const state = useStore.getState();
+    if (state.currentPathId) {
+      try {
+        const { doc, updateDoc } = await import('firebase/firestore');
+        const { db } = await import('@/lib/firebase');
+        const pathRef = doc(db, 'paths', state.currentPathId);
+        await updateDoc(pathRef, { level: nextLevel });
+      } catch (error) {
+        console.error("Error updating level in Firestore:", error);
+      }
+    }
   };
 
   const handleNextQuestion = () => {
@@ -131,6 +144,14 @@ export default function SidePanel({ isOpen, onClose, data }: SidePanelProps) {
             node.id === data.id ? { ...node, data: { ...node.data, status: 'cleared' } } : node
           );
           await updateDoc(pathRef, { nodes: updatedNodes });
+
+          // Update cache so paths page shows correct progress immediately
+          if (state.cachedUserPaths) {
+            const updatedCached = state.cachedUserPaths.map(path => 
+              path.id === state.currentPathId ? { ...path, nodes: updatedNodes } : path
+            );
+            state.setCachedUserPaths(updatedCached);
+          }
         } catch (error) {
           console.error("Error updating progress in Firestore:", error);
         }
